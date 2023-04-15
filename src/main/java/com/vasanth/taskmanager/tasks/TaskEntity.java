@@ -24,6 +24,6 @@ public class TaskEntity {
     private String description;
     private Date dueDate;
     private Boolean completed;
-    @OneToMany(targetEntity = NotesEntity.class, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = NotesEntity.class, cascade = CascadeType.ALL, mappedBy = "task")
     private List<NotesEntity> notes;
 }
