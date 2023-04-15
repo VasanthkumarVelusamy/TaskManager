@@ -9,11 +9,10 @@ import java.util.Date;
 @DataJpaTest
 public class TasksServiceTests {
     @Autowired private TasksRespository tasksRespository;
-    @Autowired private HelloBean helloBean;
 
     @Test
     public void testCreateTask() {
-        TasksService tasksService = new TasksService(tasksRespository, helloBean);
+        TasksService tasksService = new TasksService(tasksRespository);
         TaskEntity taskEntity = tasksService.createTask("new task", "test description", new Date());
         System.out.println(taskEntity);
     }

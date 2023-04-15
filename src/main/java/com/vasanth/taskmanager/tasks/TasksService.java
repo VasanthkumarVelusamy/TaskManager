@@ -7,11 +7,9 @@ import java.util.Date;
 @Service
 public class TasksService {
     private final TasksRespository tasksRespository;
-    private final HelloBean helloBean;
 
-    public TasksService(TasksRespository tasksRespository, HelloBean helloBean) {
+    public TasksService(TasksRespository tasksRespository) {
         this.tasksRespository = tasksRespository;
-        this.helloBean = helloBean;
     }
 
     public TaskEntity createTask(String title, String description, Date dueDate){
@@ -23,7 +21,4 @@ public class TasksService {
         return tasksRespository.save(taskEntity);
     }
 
-    public String getGreetings() {
-        return helloBean.greetings;
-    }
 }

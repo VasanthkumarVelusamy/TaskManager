@@ -1,15 +1,14 @@
 package com.vasanth.taskmanager.tasks;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.vasanth.taskmanager.notes.NotesEntity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,4 +24,6 @@ public class TaskEntity {
     private String description;
     private Date dueDate;
     private Boolean completed;
+    @OneToMany(targetEntity = NotesEntity.class, cascade = CascadeType.ALL)
+    private List<NotesEntity> notes;
 }
