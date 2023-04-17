@@ -8,12 +8,17 @@ import java.util.Date;
 
 @DataJpaTest
 public class TasksServiceTests {
-    @Autowired private TasksRespository tasksRespository;
+    @Autowired
+    private TasksRespository tasksRespository;
 
     @Test
     public void testCreateTask() {
         TasksService tasksService = new TasksService(tasksRespository);
-        TaskEntity taskEntity = tasksService.createTask("new task", "test description", new Date());
+        TaskEntity myTask = new TaskEntity();
+        myTask.setTitle("new task");
+        myTask.setDescription("test description");
+        myTask.setDueDate(new Date());
+        TaskEntity taskEntity = tasksService.createTask(myTask);
         System.out.println(taskEntity);
     }
 }
