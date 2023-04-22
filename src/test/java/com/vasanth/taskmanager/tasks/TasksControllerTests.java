@@ -1,5 +1,6 @@
 package com.vasanth.taskmanager.tasks;
 
+import com.vasanth.taskmanager.tasks.dtos.CreateTaskDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +18,6 @@ public class TasksControllerTests {
         TaskEntity task = new TaskEntity();
         task.setTitle("test title");
         task.setDescription("test description");
-        task.setCompleted(false);
         task.setDueDate(new Date());
         System.out.println(tasksController.createTask(task));
     }
