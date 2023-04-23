@@ -1,6 +1,7 @@
 package com.vasanth.taskmanager.tasks;
 
 import com.vasanth.taskmanager.tasks.dtos.CreateTaskDto;
+import com.vasanth.taskmanager.tasks.dtos.TaskResponseDto;
 import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,7 @@ public class TasksController {
     }
 
     @PostMapping()
-    public TaskEntity createTask(@RequestBody CreateTaskDto task) {
+    public TaskResponseDto createTask(@RequestBody CreateTaskDto task) {
         return tasksService.createTask(task);
     }
 

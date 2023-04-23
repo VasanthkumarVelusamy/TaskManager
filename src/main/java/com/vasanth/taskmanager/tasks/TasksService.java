@@ -1,6 +1,7 @@
 package com.vasanth.taskmanager.tasks;
 
 import com.vasanth.taskmanager.tasks.dtos.CreateTaskDto;
+import com.vasanth.taskmanager.tasks.dtos.TaskResponseDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +18,12 @@ public class TasksService {
         this.modelMapper = modelMapper;
     }
 
-    public TaskEntity createTask(CreateTaskDto task){
+    public TaskResponseDto createTask(CreateTaskDto task){
         ModelMapper modelMapper = new ModelMapper();
         TaskEntity taskEntity = modelMapper.map(task, TaskEntity.class);
         taskEntity.setCompleted(false);
-        return tasksRespository.save(taskEntity);
+        TaskEntity savedTask =  tasksRespository.save(taskEntity);
+        return modelMapper.map(savedTask, TaskResponseDto.class);
     }
 
     public List<TaskEntity> getAllTasks() {

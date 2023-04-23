@@ -1,6 +1,7 @@
 package com.vasanth.taskmanager.tasks;
 
 import com.vasanth.taskmanager.tasks.dtos.CreateTaskDto;
+import com.vasanth.taskmanager.tasks.dtos.TaskResponseDto;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class TasksServiceTests {
         myTask.setTitle("new task");
         myTask.setDescription("test description");
         myTask.setDueDate(new Date());
-        TaskEntity taskEntity = tasksService.createTask(myTask);
+        TaskResponseDto taskEntity = tasksService.createTask(myTask);
         System.out.println(taskEntity);
     }
 }
