@@ -1,5 +1,7 @@
 package com.vasanth.taskmanager.tasks;
 
+import com.vasanth.taskmanager.tasks.dtos.CreateTaskDto;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,17 +10,17 @@ import java.util.Optional;
 @Service
 public class TasksService {
     private final TasksRespository tasksRespository;
+    private final ModelMapper modelMapper;
 
-    public TasksService(TasksRespository tasksRespository) {
+    public TasksService(TasksRespository tasksRespository, ModelMapper modelMapper) {
         this.tasksRespository = tasksRespository;
+        this.modelMapper = modelMapper;
     }
 
-    public TaskEntity createTask(TaskEntity task){
-        TaskEntity taskEntity = new TaskEntity();
-        taskEntity.setTitle(task.getTitle());
-        taskEntity.setDescription(task.getDescription());
-        taskEntity.setDueDate(task.getDueDate());
-        taskEntity.setCompleted(task.getCompleted());
+    public TaskEntity createTask(CreateTaskDto task){
+        ModelMapper modelMapper = new ModelMapper();
+        TaskEntity taskEntity = modelMapper.map(task, TaskEntity.class);
+        taskEntity.setCompleted(false);
         return tasksRespository.save(taskEntity);
     }
 
