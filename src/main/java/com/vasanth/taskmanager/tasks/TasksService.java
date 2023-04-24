@@ -2,9 +2,11 @@ package com.vasanth.taskmanager.tasks;
 
 import com.vasanth.taskmanager.tasks.dtos.CreateTaskDto;
 import com.vasanth.taskmanager.tasks.dtos.TaskResponseDto;
+import com.vasanth.taskmanager.tasks.exceptions.TaskNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +21,9 @@ public class TasksService {
     }
 
     public TaskResponseDto createTask(CreateTaskDto task){
-        ModelMapper modelMapper = new ModelMapper();
+        if (task.getDueDate().before(new Date())) {
+            throw new IllegalArgumentException("Due date cannot be in the past");
+        }
         TaskEntity taskEntity = modelMapper.map(task, TaskEntity.class);
         taskEntity.setCompleted(false);
         TaskEntity savedTask =  tasksRespository.save(taskEntity);
@@ -34,8 +38,10 @@ public class TasksService {
         return completed ? tasksRespository.findByCompletedIsTrue() : tasksRespository.findByCompletedIsFalse();
     }
 
-    public Optional<TaskEntity> getTask(Long id) {
-        return tasksRespository.findById(id);
+    public TaskResponseDto getTask(Long id) {
+        TaskEntity task = tasksRespository.findById(id).orElseThrow(()-> new TaskNotFoundException(id));
+        TaskResponseDto fetchedTask = modelMapper.map(task, TaskResponseDto.class);
+        return fetchedTask;
     }
 
 }

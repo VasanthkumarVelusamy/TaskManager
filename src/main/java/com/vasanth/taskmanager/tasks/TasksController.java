@@ -2,6 +2,7 @@ package com.vasanth.taskmanager.tasks;
 
 import com.vasanth.taskmanager.tasks.dtos.CreateTaskDto;
 import com.vasanth.taskmanager.tasks.dtos.TaskResponseDto;
+import com.vasanth.taskmanager.tasks.exceptions.TaskNotFoundException;
 import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,8 +34,8 @@ public class TasksController {
     }
 
     @GetMapping("{id}")
-    public Optional<TaskEntity> getTask(@PathVariable Long id) {
-        return tasksService.getTask(id);
+    public ResponseEntity<TaskResponseDto> getTask(@PathVariable Long id) {
+        return ResponseEntity.ok(tasksService.getTask(id));
     }
 
     @PostMapping()
@@ -42,6 +44,14 @@ public class TasksController {
         return ResponseEntity
                 .created(URI.create("http:/localhost/2019/tasks/" + savedTask.getId()))
                 .body(savedTask);
+    }
+
+    @ExceptionHandler({
+            IllegalArgumentException.class,
+            TaskNotFoundException.class
+    })
+    public ResponseEntity<String> handleException(Exception e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 
 }
