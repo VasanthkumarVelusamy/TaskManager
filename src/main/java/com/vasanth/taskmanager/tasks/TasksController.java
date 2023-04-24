@@ -1,10 +1,13 @@
 package com.vasanth.taskmanager.tasks;
 
+import com.vasanth.taskmanager.tasks.common.ExceptionResponseDto;
 import com.vasanth.taskmanager.tasks.dtos.CreateTaskDto;
 import com.vasanth.taskmanager.tasks.dtos.TaskResponseDto;
 import com.vasanth.taskmanager.tasks.exceptions.TaskNotFoundException;
 import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,8 +53,15 @@ public class TasksController {
             IllegalArgumentException.class,
             TaskNotFoundException.class
     })
-    public ResponseEntity<String> handleException(Exception e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
+    public ResponseEntity<ExceptionResponseDto> handleException(Exception e) {
+        if (e instanceof TaskNotFoundException) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(new ExceptionResponseDto(e.getMessage()));
+        }
+        return ResponseEntity
+                .badRequest()
+                .body(new ExceptionResponseDto(e.getMessage()));
     }
 
 }
